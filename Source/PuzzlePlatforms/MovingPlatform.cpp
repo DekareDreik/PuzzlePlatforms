@@ -13,7 +13,7 @@ AMovingPlatform::AMovingPlatform()
 void AMovingPlatform::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	if (HasAuthority())
 	{
 		SetReplicates(true);
@@ -24,26 +24,42 @@ void AMovingPlatform::BeginPlay()
 	GlobalTargetLocation = GetTransform().TransformPosition(TargetLocation);
 }
 
-void AMovingPlatform::Tick(float DeltaTime) 
+void AMovingPlatform::AddActiveTrigger()
+{
+	ActiveTriggers++;
+}
+
+void AMovingPlatform::RemoveActiveTrigger()
+{
+	if (ActiveTriggers > 0)
+	{
+		ActiveTriggers--;
+	}
+}
+
+void AMovingPlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (HasAuthority())
+	if (ActiveTriggers > 0)
 	{
-		FVector Location = GetActorLocation();
-		float JorneyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
-		float JorneyTrevelled = (Location - GlobalStartLocation).Size();
-
-		if (JorneyTrevelled >= JorneyLength)
+		if (HasAuthority())
 		{
-			FVector Swap = GlobalStartLocation;
-			GlobalStartLocation = GlobalTargetLocation;
-			GlobalTargetLocation = Swap;
-		}
+			FVector Location = GetActorLocation();
+			float JorneyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
+			float JorneyTrevelled = (Location - GlobalStartLocation).Size();
 
-		FVector Direction = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal();
-		Location += Speed * DeltaTime * Direction;
-		SetActorLocation(Location);
+			if (JorneyTrevelled >= JorneyLength)
+			{
+				FVector Swap = GlobalStartLocation;
+				GlobalStartLocation = GlobalTargetLocation;
+				GlobalTargetLocation = Swap;
+			}
+
+			FVector Direction = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal();
+			Location += Speed * DeltaTime * Direction;
+			SetActorLocation(Location);
+		}
 	}	
 }
 

@@ -17,6 +17,9 @@ class PUZZLEPLATFORMS_API AMovingPlatform : public AStaticMeshActor
 public:
 	AMovingPlatform();
 
+	void AddActiveTrigger();
+	void RemoveActiveTrigger();
+
 UPROPERTY(EditAnywhere)
 	float Speed = 20.0f;
 
@@ -31,4 +34,7 @@ protected:
 private:
 	FVector GlobalTargetLocation;
 	FVector GlobalStartLocation;
+
+	UPROPERTY(EditAnywhere)
+	int ActiveTriggers = 1;
 };
