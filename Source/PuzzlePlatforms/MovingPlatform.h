@@ -6,9 +6,7 @@
 #include "Engine/StaticMeshActor.h"
 #include "MovingPlatform.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class PUZZLEPLATFORMS_API AMovingPlatform : public AStaticMeshActor
 {

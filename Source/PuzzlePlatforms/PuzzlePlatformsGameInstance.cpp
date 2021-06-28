@@ -35,4 +35,9 @@ void UPuzzlePlatformsGameInstance::Connect(const FString& Adress)
 	if (!ensure(Engine != nullptr)) return;
 
 	Engine->AddOnScreenDebugMessage(0, 4, FColor::Green, FString::Printf( TEXT("Hosting %s"), *Adress));
+
+	APlayerController* PlayerController = GetFirstLocalPlayerController();
+	if (!ensure(PlayerController != nullptr)) return;
+
+	PlayerController->ClientTravel(Adress, ETravelType::TRAVEL_Absolute);
 }

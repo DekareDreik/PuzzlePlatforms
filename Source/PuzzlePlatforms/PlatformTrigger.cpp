@@ -7,7 +7,7 @@
 
 #include "MovingPlatform.h"
 
-// Sets default values
+
 APlatformTrigger::APlatformTrigger()
 {
  	
