@@ -24,4 +24,7 @@ public:
 
 	UFUNCTION(Exec)
 	void Connect(const FString& Adress);
+
+private:
+	TSubclassOf <class UUserWidget> MenuClass;
 };
